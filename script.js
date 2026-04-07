@@ -59,7 +59,7 @@ filterBtns.forEach(btn => {
     });
 });
 
-// --- Contact form → WhatsApp ---
+// --- Contact form → WhatsApp + conversion tracking ---
 const contactForm = document.getElementById('contactForm');
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -68,6 +68,22 @@ contactForm.addEventListener('submit', (e) => {
     const budget = document.getElementById('budget').value;
     const project = document.getElementById('project').value.trim();
 
+    // Google Ads conversion tracking
+    // REPLACE AW-XXXXXXXXXX/XXXXXXXXXXXX with your actual Conversion ID/Label
+    if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+            'send_to': 'AW-XXXXXXXXXX/XXXXXXXXXXXX',
+            'value': 1.0,
+            'currency': 'USD'
+        });
+        // Also track as GA4 event
+        gtag('event', 'generate_lead', {
+            'event_category': 'contact',
+            'event_label': budget || 'not_specified',
+            'value': 1
+        });
+    }
+
     const message = `Hi Majd! I'm interested in working with you.\n\n` +
         `Name: ${name}\n` +
         `Email: ${email}\n` +
@@ -75,7 +91,40 @@ contactForm.addEventListener('submit', (e) => {
         `Project: ${project}`;
 
     const url = `https://api.whatsapp.com/send?phone=962799090933&text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+
+    // Show thank-you state
+    contactForm.innerHTML = `
+        <div class="form-success">
+            <div class="success-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+            </div>
+            <h3>Message sent!</h3>
+            <p>Redirecting you to WhatsApp now. I'll get back to you within 24 hours.</p>
+        </div>
+    `;
+
+    // Open WhatsApp after brief delay so user sees the success message
+    setTimeout(() => window.open(url, '_blank'), 800);
+});
+
+// --- Track WhatsApp clicks as conversions ---
+document.querySelectorAll('a[href*="api.whatsapp.com"]').forEach(link => {
+    link.addEventListener('click', () => {
+        if (typeof gtag === 'function') {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-XXXXXXXXXX/XXXXXXXXXXXX',
+                'value': 0.5,
+                'currency': 'USD'
+            });
+            gtag('event', 'whatsapp_click', {
+                'event_category': 'contact',
+                'event_label': 'direct_whatsapp'
+            });
+        }
+    });
 });
 
 // --- Smooth anchor scrolling (fallback for Safari) ---
