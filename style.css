@@ -1145,6 +1145,96 @@ h1, h2, h3 {
 }
 
 /* ============================================
+   HERO ARABIC TEXT
+   ============================================ */
+.hero-arabic {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    font-style: italic;
+    direction: rtl;
+}
+
+/* ============================================
+   TRUST BADGES
+   ============================================ */
+.trust-badges {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+.trust-badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent-light);
+    background: var(--accent-glow);
+    border: 1px solid rgba(139,92,246,0.15);
+    padding: 6px 16px;
+    border-radius: 100px;
+    letter-spacing: 0.02em;
+}
+
+/* ============================================
+   FLOATING WHATSAPP BUTTON
+   ============================================ */
+.whatsapp-float {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 900;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #25D366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    animation: waFloat 3s ease-in-out infinite;
+}
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(37,211,102,0.5);
+}
+.whatsapp-float:hover .wa-tooltip {
+    opacity: 1;
+    transform: translateX(-100%) translateX(-12px) translateY(-50%);
+}
+.wa-tooltip {
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateX(-100%) translateX(-6px) translateY(-50%);
+    background: var(--bg-card);
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    border: 1px solid var(--border);
+}
+@keyframes waFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+@media (max-width: 768px) {
+    .whatsapp-float { width: 54px; height: 54px; bottom: 20px; right: 20px; }
+    .whatsapp-float svg { width: 24px; height: 24px; }
+    .wa-tooltip { display: none; }
+}
+
+/* ============================================
    REDUCED MOTION
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
