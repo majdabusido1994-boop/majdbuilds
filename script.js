@@ -90,7 +90,7 @@ contactForm.addEventListener('submit', (e) => {
         `Budget: ${budget || 'Not specified'}\n` +
         `Project: ${project}`;
 
-    const url = `https://api.whatsapp.com/send?phone=962799090933&text=${encodeURIComponent(message)}`;
+    const url = `https://api.whatsapp.com/send?phone=962795901162&text=${encodeURIComponent(message)}`;
 
     // Show thank-you state
     contactForm.innerHTML = `
